@@ -1,0 +1,159 @@
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>Film Clustering</title>
+<link rel="stylesheet" type="text/css" href="brandonrose_doc.css">
+
+<script type="text/javascript" src="d3/d3.v3.js"></script>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-48594970-1', 'brandonrose.org');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</head>
+<style>
+
+
+div {
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+g.mpld3-xaxis, g.mpld3-yaxis {
+display: none; }
+
+svg.mpld3-figure {
+margin-left: -200px;
+}
+
+#legend {
+margin-top: -35px;
+}
+
+
+
+
+
+
+
+</style>
+<body>
+
+<header>
+<a href="http://brandonrose.org">Home</a>
+</header>
+
+<div class= "main">
+
+<h1>Film Clustering</h1>
+
+<div id="fig_el290745801570086793125459"></div>
+<script type="text/javascript" src="cluster_script.js"></script>
+
+<div id="legend"></div>
+
+
+
+
+<script type="text/javascript">
+//Make an SVG Container      
+ 	
+ 	var svgContainer = d3.select("#legend").append("svg")
+ 		.attr("width", 900)
+ 		.attr("height", 50);
+ 
+ //Draw the Circle
+ 	var circle = svgContainer.append("circle")
+ 		.attr("cx", 10)
+		.attr("cy", 25)
+		.attr("r", 7)
+		.style("fill", "#1b9e77")
+		.style("stroke", "none")
+		.style("stroke-width", "6");
+ 	
+ 	var text = svgContainer.append("text")
+ 		.text("Family, home, war")
+ 		.attr("x", 20)
+		.attr("y", 30)
+		.attr("fill", "black")
+		.attr("font-size", 12);
+		
+		
+	
+	 var circle = svgContainer.append("circle")
+ 		.attr("cx", 155)
+		.attr("cy", 25)
+		.attr("r", 7)
+		.style("fill", "#d95f02")
+		.style("stroke", "none")
+		.style("stroke-width", "6");
+
+ 	var text = svgContainer.append("text")
+ 		.text("Police, killed, murders")
+ 		.attr("x", 165)
+		.attr("y", 30)
+		.attr("fill", "black")
+		.attr("font-size", 12);
+		
+	
+	
+	 var circle = svgContainer.append("circle")
+ 		.attr("cx", 315)
+		.attr("cy", 25)
+		.attr("r", 7)
+		.style("fill", "#7570b3")
+		.style("stroke", "none")
+		.style("stroke-width", "6");
+		
+ 	var text = svgContainer.append("text")
+ 		.text("Father, New York, brothers")
+ 		.attr("x", 325)
+		.attr("y", 30)
+		.attr("fill", "black")
+		.attr("font-size", 12);
+		
+		
+	
+	 var circle = svgContainer.append("circle")
+ 		.attr("cx", 505)
+		.attr("cy", 25)
+		.attr("r", 7)
+		.style("fill", "#e7298a")
+		.style("stroke", "none")
+		.style("stroke-width", "6");
+ 	var text = svgContainer.append("text")
+ 		.text("Dance, singing, love")
+ 		.attr("x", 515)
+		.attr("y", 30)
+		.attr("fill", "black")
+		.attr("font-size", 12);
+		
+		
+	var circle = svgContainer.append("circle")
+ 		.attr("cx", 650)
+		.attr("cy", 25)
+		.attr("r", 7)
+		.style("fill", "#66a61e")
+		.style("stroke", "none")
+ 	var text = svgContainer.append("text")
+ 		.text("Killed, soldiers, captain")
+ 		.attr("x", 660)
+		.attr("y", 30)
+		.attr("fill", "black")
+		.attr("font-size", 12);
+	
+</script>
+
+
+
+</body></html>
