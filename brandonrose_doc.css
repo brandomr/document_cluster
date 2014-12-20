@@ -69,8 +69,10 @@ TABLES
 	}
 
 table {
-	width: 750px;
+	width: 300px;
 	border-collapse:collapse;
+	display: inline-block;
+	margin-right: 25px;
 }
 
 th {

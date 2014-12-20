@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Film Clustering</title>
+<title>Top 100 Films</title>
 <link rel="stylesheet" type="text/css" href="brandonrose_doc.css">
 
 <script type="text/javascript" src="d3/d3.v3.js"></script>
@@ -26,7 +26,7 @@
 
 
 div {
-  font-family:Arial, Helvetica, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
 }
 
 g.mpld3-xaxis, g.mpld3-yaxis {
@@ -55,14 +55,601 @@ margin-top: -35px;
 
 <div class= "main">
 
-<h1>Film Clustering</h1>
+<h1>Top 100 Films of all Time</h1>
 
 <div id="fig_el290745801570086793125459"></div>
 <script type="text/javascript" src="cluster_script.js"></script>
 
 <div id="legend"></div>
 
+<div id="narrative">
+	<p>
+How can you learn about the underlying structure of documents in a way that is informative and intuitive? This basic 
+motivating question led me on a journey to visualize and cluster documents in a two-dimensional space. What you see
+above is an output of an analytical pipeline that begin by gathering synopses on the top 100 films of all time and ended by 
+analyzing the latent topics within each document. In between I ran significant manipulations on these synopses (tokenization, stemming),
+transformed them into a vector space model (tf-idf), and clustered them into groups (k-means). But first, what did I learn?
+	</p>
+	</br>
+	<h3>
+A bit of background
+	</h3>
 
+	<p>
+I obtained a list of the top 100 films of all time from an IMDB user list called 
+<a href='http://www.imdb.com/list/ls055592025/'>
+Top 100 Greatest Movies of All Time (The Ultimate List)
+by ChrisWalczyk55.
+</a> ChrisWalczyk55 claims that "My lists are <strong>not</strong> based on my own personal favorites; 
+they are based on the true greatness and/or sucess of the person, place, or thing
+being ranked." Ok, sure, whatever. Using this list and it's ordinal rankings, 
+combined with synopses gathered from IMDB and Wikipedia, I was able to separate the films into 5 clusters.
+Why 5? Clustering is more art than science and if I selected 20 clusters they would be too narrow to allow
+me to draw any generalizations. If I picked 2 or 3 clusters they would be too broad. 5 to 8 generated a good fit,
+but I chose 5 clusters since this led to the best intuition. 	
+	</p>
+	</br>
+
+	<h3>
+Understanding the visualization
+	</h3>
+
+	<p>
+The visualization at the top of the page is a 2-dimensional scatterplot of the cosine distance of each of the movies
+(colored by cluster). The dimensions (X and Y) do not actually have labels. The way to interpret the the scatterplot is
+by examining the location of one film, relative to others, in this 2-d space. Proximity in this space equates to similarity as 
+determined by a multi-dimensional scaling of the cosine distance (1 minus cosine similarity) between synopses contained
+within the term frequency-inverse document frequency (tf-idf) matrix. That was probably confusing and I plan to explain it in a
+more detailed write up of my methodology, but the basic intuition is that, based on the collected synopses, each film is plotted in relation
+to its similarity to all other films contained in the plot. You might find some wierd relationships in this plot: keep in mind
+that similarity was measured based on the words found in the film synopses. If the film synopses were written poorly or very short
+the results were most certainly impacted. Garbage in, garbage out. Mostly I was interested in exploring the methodology.
+	</p>
+	</br>
+
+	
+	<h3>
+Scoring the clusters
+	</h3>
+	
+	<p>
+Based on the outcome of the clustering, I used the average rank from the IMDB list to score the clusters (lower is better).
+	</p>
+
+<table>
+  <tr>
+    <th>Rank</th>
+    <th>Cluster</th>
+    <th>Score</th>
+    <th>Count</th>
+  </tr>
+  <tr>
+    <td style="background-color:#66a61e">1</td>
+    <td>Killed, soldiers, captain</td>
+    <td>43.7</td>
+    <td>26</td>
+  </tr>
+  <tr>
+    <td style="background-color:#1b9e77">2</td>
+    <td>Family, home, war</td>
+    <td>47.2</td>
+    <td>25</td>
+  </tr>
+  <tr>
+    <td style="background-color:#7570b3">3</td>
+    <td>Father, New York, brothers</td>
+    <td>49.4</td>    
+    <td>21</td>
+  </tr>
+  <tr>
+    <td style="background-color:#e7298a">4</td>
+    <td>Dance, singing, love</td>
+    <td>54.5</td>    
+    <td>12</td>
+  </tr>
+  <tr>
+    <td style="background-color:#d95f02">5</td>
+    <td>Police, killed, murders</td>
+    <td>58.8</td>    
+    <td>16</td>
+  </tr>
+
+</table>
+
+	<p>
+You can see that the war movies scored the best. The basic war epic cluster was at the top, followed
+closely by family/home with some war mixed in. Family and "New York" or perhaps just cities follows the war grouping.
+Dancing, singing, love is beats out the crime-ish flicks which, in the scheme of the top 100 movies, tend towards the bottom.
+This despite the dominance of the Godfather films. 
+	</p>
+	
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+    <th colspan="2" style="background-color:#66a61e">Killed, soldiers, captain</th>
+  </tr>
+<tr>
+      <th>Rank</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>  2</td>
+      <td>                          The Shawshank Redemption</td>
+    </tr>
+    <tr>
+      <td> 11</td>
+      <td>                                Lawrence of Arabia</td>
+    </tr>
+    <tr>
+      <td> 18</td>
+      <td>                                The Sound of Music</td>
+    </tr>
+    <tr>
+      <td> 20</td>
+      <td>                                         Star Wars</td>
+    </tr>
+    <tr>
+      <td> 22</td>
+      <td>                             2001: A Space Odyssey</td>
+    </tr>
+    <tr>
+      <td> 25</td>
+      <td>                      The Bridge on the River Kwai</td>
+    </tr>
+    <tr>
+      <td> 30</td>
+      <td> Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb</td>
+    </tr>
+    <tr>
+      <td> 32</td>
+      <td>                                    Apocalypse Now</td>
+    </tr>
+    <tr>
+      <td> 34</td>
+      <td>     The Lord of the Rings: The Return of the King</td>
+    </tr>
+    <tr>
+      <td> 35</td>
+      <td>                                         Gladiator</td>
+    </tr>
+    <tr>
+      <td> 36</td>
+      <td>                             From Here to Eternity</td>
+    </tr>
+    <tr>
+      <td> 37</td>
+      <td>                               Saving Private Ryan</td>
+    </tr>
+    <tr>
+      <td> 38</td>
+      <td>                                        Unforgiven</td>
+    </tr>
+    <tr>
+      <td> 39</td>
+      <td>                           Raiders of the Lost Ark</td>
+    </tr>
+    <tr>
+      <td> 49</td>
+      <td>                                            Patton</td>
+    </tr>
+    <tr>
+      <td> 50</td>
+      <td>                                              Jaws</td>
+    </tr>
+    <tr>
+      <td> 53</td>
+      <td>                Butch Cassidy and the Sundance Kid</td>
+    </tr>
+    <tr>
+      <td> 54</td>
+      <td>                  The Treasure of the Sierra Madre</td>
+    </tr>
+    <tr>
+      <td> 56</td>
+      <td>                                           Platoon</td>
+    </tr>
+    <tr>
+      <td> 58</td>
+      <td>                                Dances with Wolves</td>
+    </tr>
+    <tr>
+      <td> 62</td>
+      <td>                                   The Deer Hunter</td>
+    </tr>
+    <tr>
+      <td> 63</td>
+      <td>                    All Quiet on the Western Front</td>
+    </tr>
+    <tr>
+      <td> 80</td>
+      <td>                                             Shane</td>
+    </tr>
+    <tr>
+      <td> 81</td>
+      <td>                                    The Green Mile</td>
+    </tr>
+    <tr>
+      <td> 88</td>
+      <td>                                 The African Queen</td>
+    </tr>
+    <tr>
+      <td> 90</td>
+      <td>                              Mutiny on the Bounty</td>
+    </tr>
+  </tbody>
+</table>
+
+<table border="1" class="dataframe">
+  <thead>
+  <tr>
+    <th colspan="2" style="background-color:#1b9e77">Family, home, war</th>
+  </tr>
+    <tr>
+   <th>Rank</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>  3</td>
+      <td>                   Schindler's List</td>
+    </tr>
+    <tr>
+      <td>  6</td>
+      <td>    One Flew Over the Cuckoo's Nest</td>
+    </tr>
+    <tr>
+      <td>  7</td>
+      <td>                 Gone with the Wind</td>
+    </tr>
+    <tr>
+      <td>  9</td>
+      <td>                   The Wizard of Oz</td>
+    </tr>
+    <tr>
+      <td> 10</td>
+      <td>                            Titanic</td>
+    </tr>
+    <tr>
+      <td> 17</td>
+      <td>                       Forrest Gump</td>
+    </tr>
+    <tr>
+      <td> 21</td>
+      <td>         E.T. the Extra-Terrestrial</td>
+    </tr>
+    <tr>
+      <td> 23</td>
+      <td>           The Silence of the Lambs</td>
+    </tr>
+    <tr>
+      <td> 33</td>
+      <td>                             Gandhi</td>
+    </tr>
+    <tr>
+      <td> 41</td>
+      <td>           A Streetcar Named Desire</td>
+    </tr>
+    <tr>
+      <td> 45</td>
+      <td>        The Best Years of Our Lives</td>
+    </tr>
+    <tr>
+      <td> 46</td>
+      <td>                       My Fair Lady</td>
+    </tr>
+    <tr>
+      <td> 47</td>
+      <td>                            Ben-Hur</td>
+    </tr>
+    <tr>
+      <td> 48</td>
+      <td>                     Doctor Zhivago</td>
+    </tr>
+    <tr>
+      <td> 59</td>
+      <td>                        The Pianist</td>
+    </tr>
+    <tr>
+      <td> 61</td>
+      <td>                       The Exorcist</td>
+    </tr>
+    <tr>
+      <td> 73</td>
+      <td>                      Out of Africa</td>
+    </tr>
+    <tr>
+      <td> 74</td>
+      <td>                  Good Will Hunting</td>
+    </tr>
+    <tr>
+      <td> 75</td>
+      <td>                Terms of Endearment</td>
+    </tr>
+    <tr>
+      <td> 78</td>
+      <td>                              Giant</td>
+    </tr>
+    <tr>
+      <td> 79</td>
+      <td>                The Grapes of Wrath</td>
+    </tr>
+    <tr>
+      <td> 82</td>
+      <td> Close Encounters of the Third Kind</td>
+    </tr>
+    <tr>
+      <td> 85</td>
+      <td>                       The Graduate</td>
+    </tr>
+    <tr>
+      <td> 89</td>
+      <td>                         Stagecoach</td>
+    </tr>
+    <tr>
+      <td> 94</td>
+      <td>                  Wuthering Heights</td>
+    </tr>
+  </tbody>
+</table>
+
+</br>
+</br>
+</br>
+
+<table border="1" class="dataframe">
+  <thead>
+  <tr>
+    <th colspan="2" style="background-color:#7570b3">Father, New York, brothers</th>
+  </tr>
+    <tr>
+      <th>Rank</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+<tbody>
+    <tr>
+      <td>  1</td>
+      <td>                  The Godfather</td>
+    </tr>
+    <tr>
+      <td>  4</td>
+      <td>                    Raging Bull</td>
+    </tr>
+    <tr>
+      <td>  8</td>
+      <td>                   Citizen Kane</td>
+    </tr>
+    <tr>
+      <td> 12</td>
+      <td>         The Godfather: Part II</td>
+    </tr>
+    <tr>
+      <td> 16</td>
+      <td>              On the Waterfront</td>
+    </tr>
+    <tr>
+      <td> 29</td>
+      <td>                   12 Angry Men</td>
+    </tr>
+    <tr>
+      <td> 40</td>
+      <td>                          Rocky</td>
+    </tr>
+    <tr>
+      <td> 43</td>
+      <td>          To Kill a Mockingbird</td>
+    </tr>
+    <tr>
+      <td> 51</td>
+      <td>                     Braveheart</td>
+    </tr>
+    <tr>
+      <td> 52</td>
+      <td> The Good, the Bad and the Ugly</td>
+    </tr>
+    <tr>
+      <td> 55</td>
+      <td>                  The Apartment</td>
+    </tr>
+    <tr>
+      <td> 60</td>
+      <td>                     Goodfellas</td>
+    </tr>
+    <tr>
+      <td> 65</td>
+      <td>                    City Lights</td>
+    </tr>
+    <tr>
+      <td> 67</td>
+      <td>          It Happened One Night</td>
+    </tr>
+    <tr>
+      <td> 69</td>
+      <td>                Midnight Cowboy</td>
+    </tr>
+    <tr>
+      <td> 70</td>
+      <td>   Mr. Smith Goes to Washington</td>
+    </tr>
+    <tr>
+      <td> 71</td>
+      <td>                       Rain Man</td>
+    </tr>
+    <tr>
+      <td> 72</td>
+      <td>                     Annie Hall</td>
+    </tr>
+    <tr>
+      <td> 83</td>
+      <td>                        Network</td>
+    </tr>
+    <tr>
+      <td> 93</td>
+      <td>                    Taxi Driver</td>
+    </tr>
+    <tr>
+      <td> 97</td>
+      <td>                    Rear Window</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+    <th colspan="2" style="background-color:#e7298a">Dance, singing, love</th>
+  </tr>
+    <tr>
+      <th>Rank</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+ <tbody>
+    <tr>
+      <td>  19</td>
+      <td>        West Side Story</td>
+    </tr>
+    <tr>
+      <td>  26</td>
+      <td>    Singin' in the Rain</td>
+    </tr>
+    <tr>
+      <td>  27</td>
+      <td>  It's a Wonderful Life</td>
+    </tr>
+    <tr>
+      <td>  28</td>
+      <td>       Some Like It Hot</td>
+    </tr>
+    <tr>
+      <td>  42</td>
+      <td> The Philadelphia Story</td>
+    </tr>
+    <tr>
+      <td>  44</td>
+      <td>   An American in Paris</td>
+    </tr>
+    <tr>
+      <td>  66</td>
+      <td>      The King's Speech</td>
+    </tr>
+    <tr>
+      <td>  68</td>
+      <td>     A Place in the Sun</td>
+    </tr>
+    <tr>
+      <td>  76</td>
+      <td>                Tootsie</td>
+    </tr>
+    <tr>
+      <td>  84</td>
+      <td>              Nashville</td>
+    </tr>
+    <tr>
+      <td>  86</td>
+      <td>      American Graffiti</td>
+    </tr>
+    <tr>
+      <td> 100</td>
+      <td>    Yankee Doodle Dandy</td>
+    </tr>
+  </tbody>
+</table>
+
+</br>
+</br>
+</br>
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+    <th colspan="2" style="background-color:#d95f02">Police, killed, murders</th>
+  </tr>
+    <tr">
+      <th>Rank</th>
+      <th>Title</th>
+    </tr>
+  </thead>
+<tbody>
+    <tr>
+      <td>  5</td>
+      <td>            Casablanca</td>
+    </tr>
+    <tr>
+      <td> 13</td>
+      <td>                Psycho</td>
+    </tr>
+    <tr>
+      <td> 14</td>
+      <td>          Sunset Blvd.</td>
+    </tr>
+    <tr>
+      <td> 15</td>
+      <td>               Vertigo</td>
+    </tr>
+    <tr>
+      <td> 24</td>
+      <td>             Chinatown</td>
+    </tr>
+    <tr>
+      <td> 31</td>
+      <td>               Amadeus</td>
+    </tr>
+    <tr>
+      <td> 57</td>
+      <td>             High Noon</td>
+    </tr>
+    <tr>
+      <td> 64</td>
+      <td> The French Connection</td>
+    </tr>
+    <tr>
+      <td> 77</td>
+      <td>                 Fargo</td>
+    </tr>
+    <tr>
+      <td> 87</td>
+      <td>          Pulp Fiction</td>
+    </tr>
+    <tr>
+      <td> 91</td>
+      <td>    The Maltese Falcon</td>
+    </tr>
+    <tr>
+      <td> 92</td>
+      <td>    A Clockwork Orange</td>
+    </tr>
+    <tr>
+      <td> 95</td>
+      <td>      Double Indemnity</td>
+    </tr>
+    <tr>
+      <td> 96</td>
+      <td> Rebel Without a Cause</td>
+    </tr>
+    <tr>
+      <td> 98</td>
+      <td>         The Third Man</td>
+    </tr>
+    <tr>
+      <td> 99</td>
+      <td>    North by Northwest</td>
+    </tr>
+  </tbody>
+</table>
+
+
+	</br>
+	</br>
+	</br>	
+		
+		
+
+</div>
 
 
 <script type="text/javascript">
